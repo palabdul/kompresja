@@ -45,10 +45,13 @@ namespace program
                     info.Text += "Plik: " + nazwa + "\r\n"; // wypisujemy na ekran
                     info.Text += "Rozmiar: " + rozmiar + " bajtów\r\n"; // wypisujemy na ekran
 
+                    string Text = File.ReadAllText(plik);
+                    int dlugosc = Text.Length;
+                    info.Text += "\r\nZnaków w pliku: " + dlugosc.ToString() + "\r\n";
+
                     potok = new FileStream(plik, FileMode.Open, FileAccess.Read); // tworzymy potok do którego przekażemy zawartośc pliku
 
-                    info.Text += "\r\nZnaków w pliku: " + potok.Length.ToString() + "\r\n";
-
+                    
                     for (int i = 0; i < potok.Length; i++) // 
                     {
                         string odczytany = Convert.ToChar(potok.ReadByte()).ToString();
