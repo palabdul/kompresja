@@ -21,9 +21,12 @@ namespace program
         List<Huffman> lista = new List<Huffman>();  // Node List.
         FileStream potok = null;
         String plik = null;
+        String nazwa = null;
+        
 
         private void button1_Click(object sender, EventArgs e)
         {
+            info.Text = String.Empty;
             OpenFileDialog okno = new OpenFileDialog();
             okno.Title = "Wybierz plik";
 
@@ -31,9 +34,12 @@ namespace program
             {
                 try
                 {
+                    
                     plik = okno.FileName;
+                    nazwa = Path.GetFileName(plik);
+                    info.Text = "Plik: " + nazwa + "\n\r";
                     potok = new FileStream(plik, FileMode.Open, FileAccess.Read);
-
+                    
                     for (int i = 0; i < potok.Length; i++)
                     {
                         string odczytany = Convert.ToChar(potok.ReadByte()).ToString();
