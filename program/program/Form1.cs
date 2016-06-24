@@ -16,5 +16,23 @@ namespace program
         {
             InitializeComponent();
         }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            OpenFileDialog okno = new OpenFileDialog();
+            okno.Title = "Wybierz plik";
+
+            if (okno.ShowDialog() == DialogResult.OK)
+            {
+                try
+                {
+
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.Message);
+                }
+            }
+        }
     }
 }
