@@ -18,29 +18,38 @@ namespace program
             InitializeComponent();
         }
 
-        List<Huffman> lista = new List<Huffman>();  // Node List.
-        FileStream potok = null;
+        Metody wykonaj = new Metody(); // inicjujemy klasę
+        List<Huffman> lista = new List<Huffman>();  // inicjujemy klasę
+        FileStream potok = null; // zerujemy zmienne
         String plik = null;
+        FileInfo opliku = null;
         String nazwa = null;
-        
+        long rozmiar = 0;
 
         private void button1_Click(object sender, EventArgs e)
         {
-            info.Text = String.Empty;
-            OpenFileDialog okno = new OpenFileDialog();
+            info.Text = String.Empty; // czyścimy okno
+            OpenFileDialog okno = new OpenFileDialog(); // tworzymy okno otwierania pliku
             okno.Title = "Wybierz plik";
 
-            if (okno.ShowDialog() == DialogResult.OK)
+            if (okno.ShowDialog() == DialogResult.OK) // jeżeli użytkownik wybrał plik
             {
-                try
+                try // to próbujemy wykonać na nim operacje
                 {
                     
-                    plik = okno.FileName;
-                    nazwa = Path.GetFileName(plik);
-                    info.Text = "Plik: " + nazwa + "\n\r";
-                    potok = new FileStream(plik, FileMode.Open, FileAccess.Read);
-                    
-                    for (int i = 0; i < potok.Length; i++)
+                    plik = okno.FileName; // wyciągamy ścieżkę do pliku
+                    opliku = new FileInfo(plik); // wyciągamy informacje o pliku
+                    nazwa = opliku.Name; // nazwa
+                    rozmiar = opliku.Length; // rozmiar
+
+                    info.Text += "Plik: " + nazwa + "\r\n"; // wypisujemy na ekran
+                    info.Text += "Rozmiar: " + rozmiar + " bajtów\r\n"; // wypisujemy na ekran
+
+                    potok = new FileStream(plik, FileMode.Open, FileAccess.Read); // tworzymy potok do którego przekażemy zawartośc pliku
+
+                    info.Text += "\r\nZnaków w pliku: " + potok.Length.ToString() + "\r\n";
+
+                    for (int i = 0; i < potok.Length; i++) // 
                     {
                         string odczytany = Convert.ToChar(potok.ReadByte()).ToString();
                         if (lista.Exists(x => x.znak == odczytany)) // Checking the value that have you created before?
@@ -48,6 +57,12 @@ namespace program
                         else
                             lista.Add(new Huffman(odczytany));   // If is no, create a new node and add to the List of Nodes
                     }
+
+                    lista.Sort();
+
+                    wykonaj.zrobDrzewo(lista);
+                    wykonaj.nadajKody("", lista[0]);
+                    wykonaj.wypisz(lista[0], dataGridView1);
                 }
                 catch (Exception ex)
                 {
