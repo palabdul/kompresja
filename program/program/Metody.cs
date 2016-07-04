@@ -9,7 +9,7 @@ namespace program
 {
     class Metody
     {
-        public void wypisz(Huffman lista, DataGridView dgv)
+        public void wypisz(Huffman lista, DataGridView dgv, Int32 znakow)
         {
             if (lista == null)
                 return;
@@ -17,15 +17,18 @@ namespace program
             {
 
                 DataGridViewRow wiersz = (DataGridViewRow)dgv.Rows[0].Clone();
-                wiersz.Cells[0].Value = lista.znak;
+                if (lista.znak == " ") wiersz.Cells[0].Value = "[spacja]";
+                else if (lista.znak == "\n") wiersz.Cells[0].Value = "\\n";
+                else if (lista.znak == "\r") wiersz.Cells[0].Value = "\\r";
+                else wiersz.Cells[0].Value = lista.znak;
                 wiersz.Cells[1].Value = lista.czestotliwosc;
-                wiersz.Cells[2].Value = null;
+                wiersz.Cells[2].Value = (double)lista.czestotliwosc / (double)znakow;
                 wiersz.Cells[3].Value = lista.kod;
                 dgv.Rows.Add(wiersz);
                 return;
             }
-            wypisz(lista.lewy, dgv);
-            wypisz(lista.prawy, dgv);
+            wypisz(lista.lewy, dgv, znakow);
+            wypisz(lista.prawy, dgv, znakow);
         }
 
         // Setting the codes of the nodes of tree. Recursive method.

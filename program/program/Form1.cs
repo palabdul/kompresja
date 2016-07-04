@@ -18,17 +18,23 @@ namespace program
             InitializeComponent();
         }
 
-        Metody wykonaj = new Metody(); // inicjujemy klasę
-        List<Huffman> lista = new List<Huffman>();  // inicjujemy klasę
-        FileStream potok = null; // zerujemy zmienne
-        String plik = null;
-        FileInfo opliku = null;
-        String nazwa = null;
-        long rozmiar = 0;
+        
 
         private void button1_Click(object sender, EventArgs e)
         {
+            Metody wykonaj = new Metody(); // inicjujemy klasę
+            List<Huffman> lista = new List<Huffman>();  // inicjujemy klasę
+            String plik = null;
+            FileInfo opliku = null;
+            String nazwa = null;
+            long rozmiar = 0;
+            char ch;
+
             info.Text = String.Empty; // czyścimy okno
+
+            dataGridView1.Rows.Clear();
+            dataGridView1.Refresh();
+
             OpenFileDialog okno = new OpenFileDialog(); // tworzymy okno otwierania pliku
             okno.Title = "Wybierz plik";
 
@@ -49,23 +55,28 @@ namespace program
                     int dlugosc = Text.Length;
                     info.Text += "\r\nZnaków w pliku: " + dlugosc.ToString() + "\r\n";
 
-                    potok = new FileStream(plik, FileMode.Open, FileAccess.Read); // tworzymy potok do którego przekażemy zawartośc pliku
-
-                    
-                    for (int i = 0; i < potok.Length; i++) // 
+                    StreamReader reader;
+                    reader = new StreamReader(plik);
+                    do
                     {
-                        string odczytany = Convert.ToChar(potok.ReadByte()).ToString();
+                        ch = (char)reader.Read();
+                        string odczytany = Convert.ToChar(ch).ToString();
                         if (lista.Exists(x => x.znak == odczytany)) // Checking the value that have you created before?
                             lista[lista.FindIndex(y => y.znak == odczytany)].zwiekszCzestotliwosc(); // If is yes, find the index of the Node and increase the frequency of the Node.
                         else
                             lista.Add(new Huffman(odczytany));   // If is no, create a new node and add to the List of Nodes
-                    }
+                    } while (!reader.EndOfStream);
+
 
                     lista.Sort();
-
                     wykonaj.zrobDrzewo(lista);
                     wykonaj.nadajKody("", lista[0]);
-                    wykonaj.wypisz(lista[0], dataGridView1);
+                    wykonaj.wypisz(lista[0], dataGridView1, dlugosc);
+                    this.dataGridView1.Sort(this.dataGridView1.Columns["czestotliwosc"], ListSortDirection.Descending);
+
+                    int total = dataGridView1.Rows.Cast<DataGridViewRow>()
+                                .Sum(t => Convert.ToInt32(t.Cells[1].Value));
+                    info.Text += "\r\nSuma: " + total.ToString() + "\r\n";
                 }
                 catch (Exception ex)
                 {
