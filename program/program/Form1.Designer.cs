@@ -33,10 +33,15 @@
             this.button1 = new System.Windows.Forms.Button();
             this.info = new System.Windows.Forms.TextBox();
             this.dataGridView1 = new System.Windows.Forms.DataGridView();
+            this.button2 = new System.Windows.Forms.Button();
             this.znak = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.czestotliwosc = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.prawdopodobienstwo = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.kodHuffmana = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.zakres_od = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.zakres_do = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.przedzial_dolny = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.przedzial_gorny = new System.Windows.Forms.DataGridViewTextBoxColumn();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.SuspendLayout();
             // 
@@ -65,12 +70,26 @@
             this.znak,
             this.czestotliwosc,
             this.prawdopodobienstwo,
-            this.kodHuffmana});
+            this.kodHuffmana,
+            this.zakres_od,
+            this.zakres_do,
+            this.przedzial_dolny,
+            this.przedzial_gorny});
             this.dataGridView1.Location = new System.Drawing.Point(278, 43);
             this.dataGridView1.Name = "dataGridView1";
             this.dataGridView1.RowHeadersVisible = false;
-            this.dataGridView1.Size = new System.Drawing.Size(549, 443);
+            this.dataGridView1.Size = new System.Drawing.Size(958, 443);
             this.dataGridView1.TabIndex = 2;
+            // 
+            // button2
+            // 
+            this.button2.Location = new System.Drawing.Point(98, 13);
+            this.button2.Name = "button2";
+            this.button2.Size = new System.Drawing.Size(75, 23);
+            this.button2.TabIndex = 3;
+            this.button2.Text = "button2";
+            this.button2.UseVisualStyleBackColor = true;
+            this.button2.Click += new System.EventHandler(this.button2_Click);
             // 
             // znak
             // 
@@ -101,11 +120,34 @@
             this.kodHuffmana.Name = "kodHuffmana";
             this.kodHuffmana.Width = 250;
             // 
+            // zakres_od
+            // 
+            this.zakres_od.HeaderText = "Zakres od";
+            this.zakres_od.Name = "zakres_od";
+            this.zakres_od.Width = 150;
+            // 
+            // zakres_do
+            // 
+            this.zakres_do.HeaderText = "Zakres do";
+            this.zakres_do.Name = "zakres_do";
+            // 
+            // przedzial_dolny
+            // 
+            this.przedzial_dolny.HeaderText = "Dolny";
+            this.przedzial_dolny.Name = "przedzial_dolny";
+            this.przedzial_dolny.Width = 150;
+            // 
+            // przedzial_gorny
+            // 
+            this.przedzial_gorny.HeaderText = "Górny";
+            this.przedzial_gorny.Name = "przedzial_gorny";
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1224, 498);
+            this.ClientSize = new System.Drawing.Size(1257, 498);
+            this.Controls.Add(this.button2);
             this.Controls.Add(this.dataGridView1);
             this.Controls.Add(this.info);
             this.Controls.Add(this.button1);
@@ -122,10 +164,15 @@
         private System.Windows.Forms.Button button1;
         private System.Windows.Forms.TextBox info;
         private System.Windows.Forms.DataGridView dataGridView1;
+        private System.Windows.Forms.Button button2;
         private System.Windows.Forms.DataGridViewTextBoxColumn znak;
         private System.Windows.Forms.DataGridViewTextBoxColumn czestotliwosc;
         private System.Windows.Forms.DataGridViewTextBoxColumn prawdopodobienstwo;
         private System.Windows.Forms.DataGridViewTextBoxColumn kodHuffmana;
+        private System.Windows.Forms.DataGridViewTextBoxColumn zakres_od;
+        private System.Windows.Forms.DataGridViewTextBoxColumn zakres_do;
+        private System.Windows.Forms.DataGridViewTextBoxColumn przedzial_dolny;
+        private System.Windows.Forms.DataGridViewTextBoxColumn przedzial_gorny;
     }
 }
 

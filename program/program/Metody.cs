@@ -22,7 +22,7 @@ namespace program
                 else if (lista.znak == "\r") wiersz.Cells[0].Value = "\\r";
                 else wiersz.Cells[0].Value = lista.znak;
                 wiersz.Cells[1].Value = lista.czestotliwosc;
-                wiersz.Cells[2].Value = (double)lista.czestotliwosc / (double)znakow;
+                wiersz.Cells[2].Value = lista.prawdopodobienstwo;
                 wiersz.Cells[3].Value = lista.kod;
                 dgv.Rows.Add(wiersz);
                 return;
@@ -32,17 +32,18 @@ namespace program
         }
 
         // Setting the codes of the nodes of tree. Recursive method.
-        public void nadajKody(string kod, Huffman lista)
+        public void nadajKody(string kod, Huffman lista, Int32 znakow)
         {
             if (lista == null)
                 return;
             if (lista.lewy == null && lista.prawy == null)
             {
                 lista.kod = kod;
+                lista.prawdopodobienstwo = (double)lista.czestotliwosc / (double)znakow;
                 return;
             }
-            nadajKody(kod + "0", lista.lewy);
-            nadajKody(kod + "1", lista.prawy);
+            nadajKody(kod + "0", lista.lewy, znakow);
+            nadajKody(kod + "1", lista.prawy, znakow);
         }
 
         //  Creates a Tree according to Nodes(frequency, symbol)

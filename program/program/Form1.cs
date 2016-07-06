@@ -30,6 +30,8 @@ namespace program
             long rozmiar = 0;
             char ch;
 
+            lista.OrderBy()
+
             info.Text = String.Empty; // czyścimy okno
 
             dataGridView1.Rows.Clear();
@@ -70,9 +72,9 @@ namespace program
 
                     lista.Sort();
                     wykonaj.zrobDrzewo(lista);
-                    wykonaj.nadajKody("", lista[0]);
+                    wykonaj.nadajKody("", lista[0], dlugosc);
                     wykonaj.wypisz(lista[0], dataGridView1, dlugosc);
-                    this.dataGridView1.Sort(this.dataGridView1.Columns["czestotliwosc"], ListSortDirection.Descending);
+                   // this.dataGridView1.Sort(this.dataGridView1.Columns["znak"], ListSortDirection.Ascending);
 
                     int total = dataGridView1.Rows.Cast<DataGridViewRow>()
                                 .Sum(t => Convert.ToInt32(t.Cells[1].Value));
@@ -82,6 +84,19 @@ namespace program
                 {
                     MessageBox.Show(ex.Message);
                 }
+            }
+        }
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+            double dolna = 0;
+            foreach (DataGridViewRow row in this.dataGridView1.Rows)
+            {
+                row.Cells[4].Value = dolna.ToString();
+                dolna += Convert.ToDouble(row.Cells[2].Value);
+                row.Cells[5].Value = dolna.ToString();
+                
+                //More code here
             }
         }
     }

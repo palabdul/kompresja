@@ -10,6 +10,7 @@ namespace program
     {
         public string znak;   // For the character of char wartosc. Public because Process class use it.
         public int czestotliwosc;          // Number of the count on file, string, text.
+        public double prawdopodobienstwo; // 
         public string kod;            // Getting from a tree for making a huffman tree.
         public Huffman rodzic; // Parent Node of current Node.
         public Huffman lewy;   // Left Node of current Node.
