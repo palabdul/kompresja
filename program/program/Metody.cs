@@ -10,6 +10,20 @@ namespace program
     class Metody
 
     {
+        public int znajdz_wiersz(DataGridView dgv, String odczytany)
+        {
+            String searchValue = odczytany;
+            int rowIndex = -1;
+            foreach (DataGridViewRow row in dgv.Rows)
+            {
+                if (row.Cells[0].Value.ToString().Equals(searchValue))
+                {
+                    rowIndex = row.Index;
+                    break;
+                }
+            }
+            return rowIndex;
+        }
        
         public void wypisz(Huffman lista, DataGridView dgv, Int32 znakow)
         {

@@ -77,7 +77,20 @@ namespace program
               //      wykonaj.nadaj(lista, info);
                     wykonaj.wypisz(lista[0], dataGridView1, dlugosc);
 
-                   // this.dataGridView1.Sort(this.dataGridView1.Columns["znak"], ListSortDirection.Ascending);
+                    reader.Close();
+                    granica = 0;
+                    reader = new StreamReader(plik);
+                    do
+                    {
+                        ch = (char)reader.Read();
+                        string odczytany = Convert.ToChar(ch).ToString();
+                        DataGridViewRow wiersz = (DataGridViewRow)dataGridView2.Rows[0].Clone();
+                        wiersz.Cells[0].Value = odczytany;
+                        int wiersz_dgv = wykonaj.znajdz_wiersz(dataGridView1, odczytany);
+
+                    } while (!reader.EndOfStream);
+
+                    // this.dataGridView1.Sort(this.dataGridView1.Columns["znak"], ListSortDirection.Ascending);
 
                     int total = dataGridView1.Rows.Cast<DataGridViewRow>()
                                 .Sum(t => Convert.ToInt32(t.Cells[1].Value));
@@ -92,15 +105,7 @@ namespace program
 
         private void button2_Click(object sender, EventArgs e)
         {
-            double dolna = 0;
-            foreach (DataGridViewRow row in this.dataGridView1.Rows)
-            {
-                row.Cells[4].Value = dolna.ToString();
-                dolna += Convert.ToDouble(row.Cells[2].Value);
-                row.Cells[5].Value = dolna.ToString();
-                
-                //More code here
-            }
+
         }
     }
 }

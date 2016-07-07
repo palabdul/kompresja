@@ -28,8 +28,8 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle5 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle6 = new System.Windows.Forms.DataGridViewCellStyle();
             this.button1 = new System.Windows.Forms.Button();
             this.info = new System.Windows.Forms.TextBox();
             this.dataGridView1 = new System.Windows.Forms.DataGridView();
@@ -40,9 +40,14 @@
             this.kodHuffmana = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.zakres_od = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.zakres_do = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.przedzial_dolny = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.przedzial_gorny = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.dataGridView2 = new System.Windows.Forms.DataGridView();
+            this.znak2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.czestottliwosc2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.prawdopodobienstwo2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.zakres_od2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.zakres_do2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridView2)).BeginInit();
             this.SuspendLayout();
             // 
             // button1
@@ -72,13 +77,11 @@
             this.prawdopodobienstwo,
             this.kodHuffmana,
             this.zakres_od,
-            this.zakres_do,
-            this.przedzial_dolny,
-            this.przedzial_gorny});
+            this.zakres_do});
             this.dataGridView1.Location = new System.Drawing.Point(278, 43);
             this.dataGridView1.Name = "dataGridView1";
             this.dataGridView1.RowHeadersVisible = false;
-            this.dataGridView1.Size = new System.Drawing.Size(958, 443);
+            this.dataGridView1.Size = new System.Drawing.Size(816, 443);
             this.dataGridView1.TabIndex = 2;
             // 
             // button2
@@ -99,17 +102,17 @@
             // 
             // czestotliwosc
             // 
-            dataGridViewCellStyle1.Format = "N0";
-            dataGridViewCellStyle1.NullValue = null;
-            this.czestotliwosc.DefaultCellStyle = dataGridViewCellStyle1;
+            dataGridViewCellStyle5.Format = "N0";
+            dataGridViewCellStyle5.NullValue = null;
+            this.czestotliwosc.DefaultCellStyle = dataGridViewCellStyle5;
             this.czestotliwosc.HeaderText = "Częstotliwość";
             this.czestotliwosc.Name = "czestotliwosc";
             // 
             // prawdopodobienstwo
             // 
-            dataGridViewCellStyle2.Format = "N6";
-            dataGridViewCellStyle2.NullValue = null;
-            this.prawdopodobienstwo.DefaultCellStyle = dataGridViewCellStyle2;
+            dataGridViewCellStyle6.Format = "N6";
+            dataGridViewCellStyle6.NullValue = null;
+            this.prawdopodobienstwo.DefaultCellStyle = dataGridViewCellStyle6;
             this.prawdopodobienstwo.HeaderText = "Prawdopodobieństwo";
             this.prawdopodobienstwo.Name = "prawdopodobienstwo";
             this.prawdopodobienstwo.Width = 120;
@@ -131,22 +134,56 @@
             this.zakres_do.HeaderText = "Zakres do";
             this.zakres_do.Name = "zakres_do";
             // 
-            // przedzial_dolny
+            // dataGridView2
             // 
-            this.przedzial_dolny.HeaderText = "Dolny";
-            this.przedzial_dolny.Name = "przedzial_dolny";
-            this.przedzial_dolny.Width = 150;
+            this.dataGridView2.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dataGridView2.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.znak2,
+            this.czestottliwosc2,
+            this.prawdopodobienstwo2,
+            this.zakres_od2,
+            this.zakres_do2});
+            this.dataGridView2.Location = new System.Drawing.Point(1101, 43);
+            this.dataGridView2.Name = "dataGridView2";
+            this.dataGridView2.Size = new System.Drawing.Size(588, 563);
+            this.dataGridView2.TabIndex = 4;
             // 
-            // przedzial_gorny
+            // znak2
             // 
-            this.przedzial_gorny.HeaderText = "Górny";
-            this.przedzial_gorny.Name = "przedzial_gorny";
+            this.znak2.HeaderText = "Znak";
+            this.znak2.Name = "znak2";
+            this.znak2.ReadOnly = true;
+            // 
+            // czestottliwosc2
+            // 
+            this.czestottliwosc2.HeaderText = "Częstotliwość";
+            this.czestottliwosc2.Name = "czestottliwosc2";
+            this.czestottliwosc2.ReadOnly = true;
+            // 
+            // prawdopodobienstwo2
+            // 
+            this.prawdopodobienstwo2.HeaderText = "Prawdopodobieństwo";
+            this.prawdopodobienstwo2.Name = "prawdopodobienstwo2";
+            this.prawdopodobienstwo2.ReadOnly = true;
+            // 
+            // zakres_od2
+            // 
+            this.zakres_od2.HeaderText = "Zakres od";
+            this.zakres_od2.Name = "zakres_od2";
+            this.zakres_od2.ReadOnly = true;
+            // 
+            // zakres_do2
+            // 
+            this.zakres_do2.HeaderText = "Zakres do";
+            this.zakres_do2.Name = "zakres_do2";
+            this.zakres_do2.ReadOnly = true;
             // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1257, 498);
+            this.ClientSize = new System.Drawing.Size(1716, 817);
+            this.Controls.Add(this.dataGridView2);
             this.Controls.Add(this.button2);
             this.Controls.Add(this.dataGridView1);
             this.Controls.Add(this.info);
@@ -154,6 +191,7 @@
             this.Name = "Form1";
             this.Text = "Form1";
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridView2)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -171,8 +209,12 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn kodHuffmana;
         private System.Windows.Forms.DataGridViewTextBoxColumn zakres_od;
         private System.Windows.Forms.DataGridViewTextBoxColumn zakres_do;
-        private System.Windows.Forms.DataGridViewTextBoxColumn przedzial_dolny;
-        private System.Windows.Forms.DataGridViewTextBoxColumn przedzial_gorny;
+        private System.Windows.Forms.DataGridView dataGridView2;
+        private System.Windows.Forms.DataGridViewTextBoxColumn znak2;
+        private System.Windows.Forms.DataGridViewTextBoxColumn czestottliwosc2;
+        private System.Windows.Forms.DataGridViewTextBoxColumn prawdopodobienstwo2;
+        private System.Windows.Forms.DataGridViewTextBoxColumn zakres_od2;
+        private System.Windows.Forms.DataGridViewTextBoxColumn zakres_do2;
     }
 }
 
