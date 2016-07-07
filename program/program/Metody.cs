@@ -8,7 +8,9 @@ using System.Windows.Forms;
 namespace program
 {
     class Metody
+
     {
+       
         public void wypisz(Huffman lista, DataGridView dgv, Int32 znakow)
         {
             if (lista == null)
@@ -24,6 +26,8 @@ namespace program
                 wiersz.Cells[1].Value = lista.czestotliwosc;
                 wiersz.Cells[2].Value = lista.prawdopodobienstwo;
                 wiersz.Cells[3].Value = lista.kod;
+                wiersz.Cells[4].Value = lista.dolna;
+                wiersz.Cells[5].Value = lista.gorna;
                 dgv.Rows.Add(wiersz);
                 return;
             }
@@ -31,8 +35,11 @@ namespace program
             wypisz(lista.prawy, dgv, znakow);
         }
 
-        // Setting the codes of the nodes of tree. Recursive method.
-        public void nadajKody(string kod, Huffman lista, Int32 znakow)
+
+    
+
+    // Setting the codes of the nodes of tree. Recursive method.
+    public void nadajKody(string kod, Huffman lista, Int32 znakow, ref Double granica)
         {
             if (lista == null)
                 return;
@@ -40,10 +47,13 @@ namespace program
             {
                 lista.kod = kod;
                 lista.prawdopodobienstwo = (double)lista.czestotliwosc / (double)znakow;
+                lista.dolna = granica;
+                granica += lista.prawdopodobienstwo;
+                lista.gorna = granica;
                 return;
             }
-            nadajKody(kod + "0", lista.lewy, znakow);
-            nadajKody(kod + "1", lista.prawy, znakow);
+            nadajKody(kod + "0", lista.lewy, znakow, ref granica);
+            nadajKody(kod + "1", lista.prawy, znakow, ref granica);
         }
 
         //  Creates a Tree according to Nodes(frequency, symbol)

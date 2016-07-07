@@ -30,7 +30,7 @@ namespace program
             long rozmiar = 0;
             char ch;
 
-            lista.OrderBy()
+            //lista.OrderBy();
 
             info.Text = String.Empty; // czyścimy okno
 
@@ -72,8 +72,11 @@ namespace program
 
                     lista.Sort();
                     wykonaj.zrobDrzewo(lista);
-                    wykonaj.nadajKody("", lista[0], dlugosc);
+                    Double granica = 0;
+                    wykonaj.nadajKody("", lista[0], dlugosc,ref granica);
+              //      wykonaj.nadaj(lista, info);
                     wykonaj.wypisz(lista[0], dataGridView1, dlugosc);
+
                    // this.dataGridView1.Sort(this.dataGridView1.Columns["znak"], ListSortDirection.Ascending);
 
                     int total = dataGridView1.Rows.Cast<DataGridViewRow>()
