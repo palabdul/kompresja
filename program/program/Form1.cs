@@ -13,6 +13,9 @@ namespace program
 {
     public partial class Form1 : Form
     {
+
+        String plik = null;
+
         public Form1()
         {
             InitializeComponent();
@@ -24,11 +27,12 @@ namespace program
         {
             Metody wykonaj = new Metody(); // inicjujemy klasę
             List<Huffman> lista = new List<Huffman>();  // inicjujemy klasę
-            String plik = null;
+            
             FileInfo opliku = null;
             String nazwa = null;
             long rozmiar = 0;
             char ch;
+
 
             //lista.OrderBy();
 
@@ -36,6 +40,8 @@ namespace program
 
             dataGridView1.Rows.Clear();
             dataGridView1.Refresh();
+            dataGridView2.Rows.Clear();
+            dataGridView2.Refresh();
 
             OpenFileDialog okno = new OpenFileDialog(); // tworzymy okno otwierania pliku
             okno.Title = "Wybierz plik";
@@ -69,6 +75,7 @@ namespace program
                             lista.Add(new Huffman(odczytany));   // If is no, create a new node and add to the List of Nodes
                     } while (!reader.EndOfStream);
 
+                    reader.Close();
 
                     lista.Sort();
                     wykonaj.zrobDrzewo(lista);
@@ -77,18 +84,9 @@ namespace program
               //      wykonaj.nadaj(lista, info);
                     wykonaj.wypisz(lista[0], dataGridView1, dlugosc);
 
-                    reader.Close();
-                    granica = 0;
-                    reader = new StreamReader(plik);
-                    do
-                    {
-                        ch = (char)reader.Read();
-                        string odczytany = Convert.ToChar(ch).ToString();
-                        DataGridViewRow wiersz = (DataGridViewRow)dataGridView2.Rows[0].Clone();
-                        wiersz.Cells[0].Value = odczytany;
-                        int wiersz_dgv = wykonaj.znajdz_wiersz(dataGridView1, odczytany);
+                    
 
-                    } while (!reader.EndOfStream);
+                    
 
                     // this.dataGridView1.Sort(this.dataGridView1.Columns["znak"], ListSortDirection.Ascending);
 
@@ -106,6 +104,59 @@ namespace program
         private void button2_Click(object sender, EventArgs e)
         {
 
+            dataGridView2.Rows.Clear();
+            dataGridView2.Refresh();
+
+            StreamReader reader = new StreamReader(plik);
+            char ch;
+            Double dolna;
+            Double gorna;
+            Double zakres;
+            Double zakres_dolny;
+            Double zakres_gorny;
+            Double tmp;
+            Metody wykonaj = new Metody(); // inicjujemy klasę
+
+
+            dolna = 0.0;
+            gorna = 1.0;
+            do
+            {
+                ch = (char)reader.Read();
+                string odczytany = Convert.ToChar(ch).ToString();
+                if (odczytany == " ") odczytany = "[spacja]";
+                if (odczytany == "\n") odczytany = "\\n";
+                if (odczytany == "\r") odczytany = "\\r";
+                DataGridViewRow wiersz = (DataGridViewRow)dataGridView2.Rows[0].Clone();
+                wiersz.Cells[0].Value = odczytany;
+                int wiersz_dgv = wykonaj.znajdz_wiersz(dataGridView1, odczytany);
+                wiersz.Cells[1].Value = dataGridView1.Rows[wiersz_dgv].Cells[1].Value;
+                wiersz.Cells[2].Value = dataGridView1.Rows[wiersz_dgv].Cells[2].Value;
+                zakres_dolny = Convert.ToDouble(dataGridView1.Rows[wiersz_dgv].Cells[4].Value);
+                zakres_gorny = Convert.ToDouble(dataGridView1.Rows[wiersz_dgv].Cells[5].Value);
+
+                zakres = gorna - dolna;
+                tmp = dolna;
+                dolna = dolna + (zakres * zakres_dolny);
+                gorna = tmp + (zakres * zakres_gorny);
+                wiersz.Cells[3].Value = dolna.ToString();
+                wiersz.Cells[4].Value = gorna.ToString();
+                dataGridView2.Rows.Add(wiersz);
+
+            } while (!reader.EndOfStream);
+
+            reader.Close();
+        }
+
+        private void button3_Click(object sender, EventArgs e)
+        {
+            Double granica = 0;
+            foreach (DataGridViewRow row in dataGridView1.Rows)
+            {
+                row.Cells[4].Value = granica.ToString();
+                granica = granica + Convert.ToDouble(row.Cells[2].Value);
+                row.Cells[5].Value = granica.ToString();
+            }
         }
     }
 }
