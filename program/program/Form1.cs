@@ -14,7 +14,17 @@ namespace program
     public partial class Form1 : Form
     {
 
-        String plik = null;
+        public String plik = null; // przechowuje ścieżkę pliku
+        public String nazwa = null; // przechowuje nazwę pliku
+        public String zawartosc = null; // przechowuje zawartość pliku
+        public FileInfo opliku = null; // przechowuje informacje o pliku
+        public long rozmiar = 0; // przechowuje rozmiar pliku 
+        public char ch; // przechowuje odczytywany znak
+        public int ilosc_znakow = 0; // przechowuje ilosc znaków pliku
+        public int unikalnych_znakow = 0; // przechowuje ilosc unikalnych znaków pliku
+        public Double granica = 0; // początek zakresu 0,1
+        Metody wykonaj = new Metody(); // 
+        List<Huffman> lista = new List<Huffman>();  // 
 
         public Form1()
         {
@@ -23,76 +33,34 @@ namespace program
 
         
 
-        private void button1_Click(object sender, EventArgs e)
+        private void btn_otworz_plik_click(object sender, EventArgs e)
         {
-            Metody wykonaj = new Metody(); // inicjujemy klasę
-            List<Huffman> lista = new List<Huffman>();  // inicjujemy klasę
-            
-            FileInfo opliku = null;
-            String nazwa = null;
-            long rozmiar = 0;
-            char ch;
 
+            dgv_info.Rows.Clear();
+            dgv_info.Refresh();
 
-            //lista.OrderBy();
-
-            info.Text = String.Empty; // czyścimy okno
-
-            dataGridView1.Rows.Clear();
-            dataGridView1.Refresh();
-            dataGridView2.Rows.Clear();
-            dataGridView2.Refresh();
-
-            OpenFileDialog okno = new OpenFileDialog(); // tworzymy okno otwierania pliku
-            okno.Title = "Wybierz plik";
+            OpenFileDialog okno = new OpenFileDialog(); // tworzy okno dialogowe do otwierania pliku
+            okno.Title = "Wybierz plik"; // tytuł okna
 
             if (okno.ShowDialog() == DialogResult.OK) // jeżeli użytkownik wybrał plik
             {
-                try // to próbujemy wykonać na nim operacje
+                try // to próbuje wykonać na nim operacje
                 {
-                    
-                    plik = okno.FileName; // wyciągamy ścieżkę do pliku
-                    opliku = new FileInfo(plik); // wyciągamy informacje o pliku
-                    nazwa = opliku.Name; // nazwa
-                    rozmiar = opliku.Length; // rozmiar
+                    plik = okno.FileName; // wyciąga ścieżkę do pliku
+                    opliku = new FileInfo(plik); // wyciąga informacje o pliku
+                    nazwa = opliku.Name; // wyciąga nazwę pliku 
+                    rozmiar = opliku.Length; // wyciąga rozmiar pliku
 
-                    info.Text += "Plik: " + nazwa + "\r\n"; // wypisujemy na ekran
-                    info.Text += "Rozmiar: " + rozmiar + " bajtów\r\n"; // wypisujemy na ekran
+                    DataGridViewRow wiersz = (DataGridViewRow)dgv_info.Rows[0].Clone();
+                    wiersz.Cells[0].Value = "Plik: ";// wypisuje na ekran nazwę pliku
+                    wiersz.Cells[1].Value = nazwa;
+                    dgv_info.Rows.Add(wiersz);
 
-                    string Text = File.ReadAllText(plik);
-                    int dlugosc = Text.Length;
-                    info.Text += "\r\nZnaków w pliku: " + dlugosc.ToString() + "\r\n";
-
-                    StreamReader reader;
-                    reader = new StreamReader(plik);
-                    do
-                    {
-                        ch = (char)reader.Read();
-                        string odczytany = Convert.ToChar(ch).ToString();
-                        if (lista.Exists(x => x.znak == odczytany)) // Checking the value that have you created before?
-                            lista[lista.FindIndex(y => y.znak == odczytany)].zwiekszCzestotliwosc(); // If is yes, find the index of the Node and increase the frequency of the Node.
-                        else
-                            lista.Add(new Huffman(odczytany));   // If is no, create a new node and add to the List of Nodes
-                    } while (!reader.EndOfStream);
-
-                    reader.Close();
-
-                    lista.Sort();
-                    wykonaj.zrobDrzewo(lista);
-                    Double granica = 0;
-                    wykonaj.nadajKody("", lista[0], dlugosc,ref granica);
-              //      wykonaj.nadaj(lista, info);
-                    wykonaj.wypisz(lista[0], dataGridView1, dlugosc);
-
-                    
-
-                    
-
-                    // this.dataGridView1.Sort(this.dataGridView1.Columns["znak"], ListSortDirection.Ascending);
-
-                    int total = dataGridView1.Rows.Cast<DataGridViewRow>()
-                                .Sum(t => Convert.ToInt32(t.Cells[1].Value));
-                    info.Text += "\r\nSuma: " + total.ToString() + "\r\n";
+                    wiersz = (DataGridViewRow)dgv_info.Rows[0].Clone();
+                    wiersz.Cells[0].Value = "Rozmiar: ";// wypisuje na ekran rozmiar pliku
+                    wiersz.Cells[1].Value = rozmiar;
+                    dgv_info.Rows.Add(wiersz);
+                                   
                 }
                 catch (Exception ex)
                 {
@@ -104,8 +72,13 @@ namespace program
         private void button2_Click(object sender, EventArgs e)
         {
 
-            dataGridView2.Rows.Clear();
-            dataGridView2.Refresh();
+            info.Text = String.Empty; // czyści textbox
+            dgv_huffman.Rows.Clear(); // czyści tabelkę 1
+            dgv_huffman.Refresh();
+            dgv_arytmetyczne.Rows.Clear(); // czyści tabelkę 2
+            dgv_arytmetyczne.Refresh();
+            dgv_arytmetyczne.Rows.Clear();
+            dgv_arytmetyczne.Refresh();
 
             StreamReader reader = new StreamReader(plik);
             char ch;
@@ -115,7 +88,6 @@ namespace program
             Double zakres_dolny;
             Double zakres_gorny;
             Double tmp;
-            Metody wykonaj = new Metody(); // inicjujemy klasę
 
 
             dolna = 0.0;
@@ -127,13 +99,14 @@ namespace program
                 if (odczytany == " ") odczytany = "[spacja]";
                 if (odczytany == "\n") odczytany = "\\n";
                 if (odczytany == "\r") odczytany = "\\r";
-                DataGridViewRow wiersz = (DataGridViewRow)dataGridView2.Rows[0].Clone();
+                DataGridViewRow wiersz = (DataGridViewRow)dgv_arytmetyczne.Rows[0].Clone();
                 wiersz.Cells[0].Value = odczytany;
-                int wiersz_dgv = wykonaj.znajdz_wiersz(dataGridView1, odczytany);
-                wiersz.Cells[1].Value = dataGridView1.Rows[wiersz_dgv].Cells[1].Value;
-                wiersz.Cells[2].Value = dataGridView1.Rows[wiersz_dgv].Cells[2].Value;
-                zakres_dolny = Convert.ToDouble(dataGridView1.Rows[wiersz_dgv].Cells[4].Value);
-                zakres_gorny = Convert.ToDouble(dataGridView1.Rows[wiersz_dgv].Cells[5].Value);
+
+                var index = lista.FindIndex(a => a.znak == odczytany);
+                wiersz.Cells[1].Value = lista[index].czestotliwosc;
+                wiersz.Cells[2].Value = lista[index].prawdopodobienstwo;
+                zakres_dolny = Convert.ToDouble(lista[index].dolna);
+                zakres_gorny = Convert.ToDouble(lista[index].gorna);
 
                 zakres = gorna - dolna;
                 tmp = dolna;
@@ -141,22 +114,66 @@ namespace program
                 gorna = tmp + (zakres * zakres_gorny);
                 wiersz.Cells[3].Value = dolna.ToString();
                 wiersz.Cells[4].Value = gorna.ToString();
-                dataGridView2.Rows.Add(wiersz);
+                dgv_arytmetyczne.Rows.Add(wiersz);
 
             } while (!reader.EndOfStream);
 
+            tb_policz.Text = dolna.ToString();
             reader.Close();
         }
 
-        private void button3_Click(object sender, EventArgs e)
+        private void btn_policz_click(object sender, EventArgs e)
         {
+            try
+            {
+                dgv_policz.Rows.Clear();
+                dgv_policz.Refresh();
+                tb_policz.Clear();
+                tb_policz.Refresh();
+
+                zawartosc = File.ReadAllText(plik); // wyciąga zawartość pliku
+                ilosc_znakow = zawartosc.Length; // liczy ilość znaków
+                tb_policz.Text += "Znaków w pliku: " + ilosc_znakow.ToString() + "\r\n"; // wypisuje na ekran ilość znaków w pliku
+
+                StreamReader reader; // tworzy instancję potoku
+                reader = new StreamReader(plik); // podpina plik do potoku
+                do // rozpoczyna pętlę
+                {
+                    ch = (char)reader.Read(); // odczytuje jeden bajt
+                    string odczytany = Convert.ToChar(ch).ToString(); // konwertuje na wartość typu string
+                    if (lista.Exists(x => x.znak == odczytany)) // sprawdza czy znak znajduje się na liście
+                        lista[lista.FindIndex(y => y.znak == odczytany)].zwiekszCzestotliwosc(); // jeśli tak, to zwiększa jego częstotliwość
+                    else
+                        unikalnych_znakow++;
+                        lista.Add(new Huffman(odczytany));   // jeśli nie, to tworzy nowy węzeł listy
+                } while (!reader.EndOfStream); // wykonuje dopóki nie skończy czytać całego pliku
+
+                reader.Close(); // zamyka potok
+
+                tb_policz.Text += "Unikalnych znaków w pliku: " + unialnych_znakow.ToString() + "\r\n"; // wypisuje na ekran ilość unikalnych znaków w pliku
+
+
+
+                lista.Sort(); // sortuje listę zgodnie z częstotliwością znaków
+                wykonaj.zrobDrzewo(lista); // tworzy drzewo binarne znaków
+
+                wykonaj.nadajKody("", lista[0], ilosc_znakow, ref granica); // nadaje kody poszczególnym znakom
+                wykonaj.wypisz(lista[0], dgv_huffman, ilosc_znakow); // wypisuje tablicę kodowania
+            }
+            catch
+            {
+
+            }
+
+
             Double granica = 0;
-            foreach (DataGridViewRow row in dataGridView1.Rows)
+            foreach (DataGridViewRow row in dgv_huffman.Rows)
             {
                 row.Cells[4].Value = granica.ToString();
                 granica = granica + Convert.ToDouble(row.Cells[2].Value);
                 row.Cells[5].Value = granica.ToString();
             }
         }
+
     }
 }
